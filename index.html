@@ -634,6 +634,7 @@
         min-height: 76vh;
         border-bottom: 1px solid var(--line);
         overflow: hidden;
+        cursor: pointer;
         --fx-x: 50%;
         --fx-y: 50%;
         --fx-strength: 0;
@@ -931,6 +932,103 @@
         color: #969696;
         font-size: 0.86rem;
       }
+      .about-us-panel {
+        margin-top: 1.9rem;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 24px;
+        background:
+          radial-gradient(circle at 0% 0%, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0) 42%),
+          linear-gradient(180deg, rgba(12, 12, 12, 0.72), rgba(8, 8, 8, 0.72));
+        padding: 1.3rem;
+        position: relative;
+        overflow: hidden;
+      }
+      .about-us-grid {
+        position: relative;
+        min-height: 320px;
+        display: flex;
+        align-items: center;
+      }
+      .about-metric-number {
+        margin: 0;
+        font-size: clamp(3.5rem, 10vw, 7rem);
+        line-height: 0.9;
+        letter-spacing: -0.05em;
+        color: #f3f3f3;
+        position: absolute;
+        left: clamp(1rem, 3.5vw, 2.4rem);
+        top: 50%;
+        transform: translateY(-50%);
+        text-align: center;
+        min-width: clamp(120px, 18vw, 210px);
+      }
+      .about-metric-label {
+        margin: 0.55rem 0 0;
+        color: #9c9c9c;
+        font-size: 1rem;
+        font-weight: 600;
+        position: absolute;
+        left: clamp(1rem, 3.5vw, 2.4rem);
+        top: calc(50% + clamp(52px, 6vw, 66px));
+        width: clamp(120px, 18vw, 210px);
+        text-align: center;
+      }
+      .about-content {
+        margin-left: clamp(150px, 24vw, 320px);
+      }
+      .about-kicker {
+        margin: 0;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.42rem;
+        color: #d9d9d9;
+        font-size: 1.02rem;
+        font-weight: 700;
+      }
+      .about-kicker::before {
+        content: "";
+        width: 8px;
+        height: 8px;
+        border-radius: 999px;
+        background: #8d8d8d;
+      }
+      .about-title {
+        margin: 0.7rem 0 0;
+        font-size: clamp(2rem, 4.6vw, 3.2rem);
+        line-height: 1.02;
+        letter-spacing: -0.02em;
+        color: #f2f2f2;
+        max-width: 900px;
+      }
+      .about-list {
+        margin: 1rem 0 0;
+        padding: 0;
+        list-style: none;
+        display: grid;
+        gap: 0.5rem;
+      }
+      .about-list li {
+        font-size: clamp(1.35rem, 3.3vw, 2.2rem);
+        letter-spacing: -0.02em;
+        color: #ececec;
+        opacity: 0;
+        transform: translateY(10px);
+        transition: opacity 420ms ease, transform 420ms ease;
+      }
+      .about-list li::before {
+        content: "▪";
+        display: inline-block;
+        margin-right: 0.55rem;
+        color: #d6d6d6;
+      }
+      .about-us-panel.inview .about-list li {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .about-us-panel.inview .about-list li:nth-child(2) { transition-delay: 90ms; }
+      .about-us-panel.inview .about-list li:nth-child(3) { transition-delay: 170ms; }
+      .about-us-panel.inview .about-list li:nth-child(4) { transition-delay: 250ms; }
+      .about-us-panel.inview .about-list li:nth-child(5) { transition-delay: 330ms; }
       .portfolio-section {
         margin-top: 3.6rem;
         margin-bottom: 3.2rem;
@@ -1116,6 +1214,7 @@
         .form-grid { grid-template-columns: repeat(2, 1fr); }
         .full { grid-column: 1 / -1; }
         .split { grid-template-columns: 7fr 5fr; }
+        .about-us-grid { min-height: 360px; }
         .advisory-copy { width: min(43vw, 560px); }
         .advisory-step { padding: 1.35rem; }
         .portfolio-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
@@ -1423,6 +1522,24 @@
               <section class="clone-mosaic" id="logoMosaic" aria-label="Trusted logos mosaic"></section>
             </section>
 
+            <section class="about-us-panel reveal" id="about-us">
+              <div class="about-us-grid">
+                <p class="about-metric-number"><span data-count-target="12">12</span>+</p>
+                <p class="about-metric-label">Years of Experience</p>
+                <article class="about-content">
+                  <p class="about-kicker">About Us</p>
+                  <h2 class="about-title">Our team is composed of experts with extensive experience across:</h2>
+                  <ul class="about-list">
+                    <li>Venture Capital</li>
+                    <li>Leading Crypto Projects</li>
+                    <li>Marketing Firms</li>
+                    <li>Media & PR</li>
+                    <li>Event Management</li>
+                  </ul>
+                </article>
+              </div>
+            </section>
+
             <section id="advisory-tracks" class="advisory-flow reveal">
               <div class="advisory-motion">
                 <div class="advisory-stage">
@@ -1605,6 +1722,42 @@
         targets.forEach((el) => observer.observe(el));
       }
 
+      function initAboutUsCount() {
+        const counters = document.querySelectorAll("[data-count-target]");
+        if (!counters.length) return;
+
+        const animate = (el) => {
+          const target = Number(el.getAttribute("data-count-target")) || 0;
+          const startValue = 1;
+          const start = performance.now();
+          const duration = 1100;
+
+          const tick = (now) => {
+            const t = Math.min(1, (now - start) / duration);
+            const eased = 1 - Math.pow(1 - t, 3);
+            const value = Math.round(startValue + (target - startValue) * eased);
+            el.textContent = String(value);
+            if (t < 1) requestAnimationFrame(tick);
+          };
+
+          requestAnimationFrame(tick);
+        };
+
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                animate(entry.target);
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.45 }
+        );
+
+        counters.forEach((el) => observer.observe(el));
+      }
+
       function initMarqueeDrag() {
         const marquees = document.querySelectorAll(".marquee");
         marquees.forEach((marquee) => {
@@ -1751,6 +1904,10 @@
         const hero = document.querySelector(".clone-hero");
         if (!hero) return;
 
+        hero.addEventListener("click", () => {
+          scrollToAboutUs(true);
+        });
+
         if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
           hero.style.setProperty("--fx-strength", "0");
           return;
@@ -1873,6 +2030,7 @@
         app.innerHTML = (map[page] || servicesPage)();
         initAdvisoryTrackMotion();
         initCloneHeroFx();
+        initAboutUsCount();
         initScrollReveal();
         initMarqueeDrag();
         initLogoMosaic();
@@ -1888,6 +2046,13 @@
         const advisory = document.getElementById("advisory-tracks");
         if (!advisory) return;
         advisory.scrollIntoView({ behavior: smooth ? "smooth" : "auto", block: "start" });
+      }
+
+      function scrollToAboutUs(smooth = true) {
+        const about = document.getElementById("about-us");
+        if (!about) return;
+        const y = window.scrollY + about.getBoundingClientRect().top - 90;
+        window.scrollTo({ top: Math.max(0, y), behavior: smooth ? "smooth" : "auto" });
       }
 
       function scrollToPortfolioSection(smooth = true) {
