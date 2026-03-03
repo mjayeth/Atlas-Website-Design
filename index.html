@@ -693,7 +693,7 @@
       }
       .clone-content {
         position: relative;
-        z-index: 4;
+        z-index: 7;
         padding: 1.35rem;
         max-width: 620px;
         pointer-events: none;
@@ -841,11 +841,11 @@
       .advisory-step {
         position: absolute;
         inset: 0;
-        border: 1px solid #2b2b2b;
+        border: 1px solid rgba(255, 255, 255, 0.08);
         border-radius: 24px;
         background:
-          radial-gradient(circle at 18% 18%, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0) 46%),
-          linear-gradient(180deg, #131313, #0d0d0d);
+          radial-gradient(circle at 18% 18%, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0) 50%),
+          linear-gradient(180deg, #101010, #0b0b0b);
         padding: 1.2rem;
         display: flex;
         align-items: center;
@@ -1177,6 +1177,7 @@
           margin: 0.5rem 0 !important;
           font-size: clamp(4rem, 18vw, 7rem) !important;
         }
+        .clone-fx-layer { animation: none !important; }
         .clone-fx-noise { animation: none !important; }
         .hero-bg-video { display: none !important; }
       }
