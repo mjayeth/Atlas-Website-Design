@@ -986,6 +986,14 @@
         transform: scale(0.7);
         transform-origin: center;
       }
+      .portfolio-item img.scale-90 {
+        transform: scale(0.9);
+        transform-origin: center;
+      }
+      .portfolio-item img.scale-sidekick {
+        transform: scale(0.8);
+        transform-origin: center;
+      }
       .site-footer {
         margin-top: 1.6rem;
         padding-top: 1rem;
@@ -1235,6 +1243,8 @@
       const portfolioScaleMid = new Set(["image 36.png"]);
       const portfolioScaleDown = new Set(["image 38.png"]);
       const portfolioScaleSmall = new Set(["image 45.png", "image 40.png"]);
+      const portfolioScale90 = new Set(["image 41.png", "APECHAIN.avif"]);
+      const portfolioScaleSidekick = new Set(["SIDEKICK.avif"]);
 
       let page = "services";
       let activeTab = "home";
@@ -1368,6 +1378,10 @@
                 ? "scale-down"
               : portfolioScaleSmall.has(file)
                 ? "scale-small"
+              : portfolioScale90.has(file)
+                ? "scale-90"
+              : portfolioScaleSidekick.has(file)
+                ? "scale-sidekick"
                 : "";
             return `
               <article class="portfolio-item">
